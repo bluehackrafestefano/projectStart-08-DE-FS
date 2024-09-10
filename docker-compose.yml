@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 80:5173
+    depends_on:
+      - backend
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - 8000:8000
+    volumes:
+      - ./backend/logs:/backend/logs
+      - ./backend/upload:/backend/upload
+    depends_on:
+      - database
+    restart: always
+
+  database:
+    image: mongo
+    ports:
+      - 27017:27017
+    restart: always
